@@ -48,6 +48,8 @@ See
 eval "$(rbenv init -)"
 ```
 
+### Complete
+
 The complete code block
 
 ```sh
