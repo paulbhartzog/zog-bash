@@ -19,19 +19,22 @@ fi
 # ---------------------------------------------------------------------------
 # 0; is regular
 # 1; is bold
-RED="\[\033[0;31m\]"
-RED_BOLD="\[\033[1;31m\]"
+DARK_RED="\[\033[0;31m\]"
+DARK_RED_BOLD="\[\033[1;31m\]"
 GREEN="\[\033[0;32m\]"
 GREEN_BOLD="\[\033[1;32m\]"
 YELLOW="\[\033[0;33m\]"
 YELLOW_BOLD="\[\033[1;33m\]"
 BLUE="\[\033[0;34m\]"
 BLUE_BOLD="\[\033[1;34m\]"
+PURPLE="\[\033[0;35m\]"
+PURPLE_BOLD="\[\033[1;35m\]"
 CYAN="\[\033[0;36m\]"
-CYAN_BOLD="\[\033[0;36m\]"
-GRAY="\[\033[0;37m\]"
-DKGRAY="\[\033[1;30m\]"
-WHITE="\[\033[1;37m\]"
+CYAN_BOLD="\[\033[1;36m\]"
+WHITE="\[\033[0;37m\]"
+WHITE_BOLD="\[\033[1;37m\]"
+BLACK="\[\033[0;30m\]"
+BLACK_BOLD="\[\033[1;30m\]"
 
 # ---------------------------------------------------------------------------
 # NVM
@@ -49,6 +52,14 @@ echo "load rbenv shell hooks"
 eval "$(rbenv init -)"
 
 # ---------------------------------------------------------------------------
+# bash completion for git
+# ---------------------------------------------------------------------------
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    . $(brew --prefix)/etc/bash_completion
+fi
+source ~/.git-completion.bash
+
+# ---------------------------------------------------------------------------
 # create useful bash prompt
 # account@machine working-dir git-branch ruby-env prompt
 # ---------------------------------------------------------------------------
@@ -60,7 +71,7 @@ echo "  account@machine working-dir git-branch ruby-env prompt"
 # ---------------------------------------------------------------------------
 # \u : the username of the current user
 # \h : the hostname up to the first ‘.’
-user_at_host="$RED_BOLD\u@\h"
+user_at_host="$WHITE_BOLD\u@\h"
 
 # ---------------------------------------------------------------------------
 # working-dir ( \w )
@@ -75,7 +86,7 @@ get_git_branch() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 # export PS1="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ "
-git_branch="\[\033[01;34m\]$(get_git_branch)\033[01;34m\]"
+git_branch="$CYAN_BOLD git$(get_git_branch)"
 
 # ---------------------------------------------------------------------------
 # ruby-env
@@ -83,7 +94,7 @@ git_branch="\[\033[01;34m\]$(get_git_branch)\033[01;34m\]"
 get_ruby_env () {
   rbenv version | sed -e 's/ .*//'
 }
-ruby_env="\033[01;31m\]ruby=$(get_ruby_env)\033[01;31m\]"
+ruby_env="$DARK_RED_BOLD ruby $(get_ruby_env)"
 
 # ---------------------------------------------------------------------------
 # prompt ($)
@@ -91,17 +102,16 @@ ruby_env="\033[01;31m\]ruby=$(get_ruby_env)\033[01;31m\]"
 prompt="\[\033[01;35m\]\$\[\033[00m\] "
 
 # ---------------------------------------------------------------------------
-# build prompt
+# assing prompt based on available vars
 # ---------------------------------------------------------------------------
-
 if [ -f $(brew --prefix)/etc/bash_completion ] && [ -f `which rbenv` ]; then
-  export PS1="$user_at_host $current_working_dir $git_branch $ruby_env $prompt"
-elif [ -f $BASH_COMPLETION_DIR/git ]; then
-  export PS1='\[\033[01;32m\]\u@\h\[\033[01;33m\] \w$(__git_ps1) \[\033[01;34m\]\$\[\033[00m\] 2 '
+  export PS1="$user_at_host $working_dir $git_branch $ruby_env $prompt"
+elif [ -f $(brew --prefix)/etc/bash_completion ]; then
+  export PS1="$user_at_host $working_dir $git_branch $prompt"
 elif [ `which rbenv` ]; then
-  export PS1='\[\033[01;32m\]\u@\h\[\033[01;33m\] \w ruby=$(__rbenv_ps1) \[\033[01;34m\]\$\[\033[00m\] 3 '
+  export PS1="$user_at_host $working_dir $ruby_env $prompt"
 else
-  export PS1='\[\033[01;32m\]\u@\h\[\033[01;33m\] \w \[\033[01;34m\]\$\[\033[00m\] 4 '
+  export PS1="$user_at_host $working_dir $prompt"
 fi
 
 
