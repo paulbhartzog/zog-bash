@@ -1,6 +1,6 @@
 # zog-bash-prompt
 
-Paul B. Hartzog's bash prompt w/ various handy bits in it. :-)
+Paul B. Hartzog's bash stuff w/ various handy bits in it. :-)
 
 # Shell Setup (Bash)
 
@@ -69,4 +69,3 @@ The complete code block
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 ```
-
