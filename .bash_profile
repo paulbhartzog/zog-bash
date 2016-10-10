@@ -35,6 +35,13 @@ WHITE="\[\033[0;37m\]"
 WHITE_BOLD="\[\033[1;37m\]"
 BLACK="\[\033[0;30m\]"
 BLACK_BOLD="\[\033[1;30m\]"
+LIGHT_RED="\[\033[0;91m\]"
+LIGHT_RED_BOLD="\[\033[1;91m\]"
+LIGHT_BLUE="\[\033[0;94m\]"
+LIGHT_BLUE_BOLD="\[\033[1;94m\]"
+LIGHT_PURPLE="\[\033[0;95m\]"
+LIGHT_PURPLE_BOLD="\[\033[1;95m\]"
+COLOR_RESET="\[\033[00m\]"
 
 # ---------------------------------------------------------------------------
 # NVM
@@ -83,7 +90,7 @@ working_dir="$GREEN_BOLD\w"
 # git-branch
 # ---------------------------------------------------------------------------
 get_git_branch() {
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 # export PS1="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ "
 git_branch="$CYAN_BOLD git$(get_git_branch)"
@@ -99,7 +106,7 @@ ruby_env="$DARK_RED_BOLD ruby $(get_ruby_env)"
 # ---------------------------------------------------------------------------
 # prompt ($)
 # ---------------------------------------------------------------------------
-prompt="\[\033[01;35m\]\$\[\033[00m\] "
+prompt="$LIGHT_PURPLE_BOLD\$$COLOR_RESET "
 
 # ---------------------------------------------------------------------------
 # assing prompt based on available vars
@@ -113,8 +120,6 @@ elif [ `which rbenv` ]; then
 else
   export PS1="$user_at_host $working_dir $prompt"
 fi
-
-
 
 
 # end .bash_profile
