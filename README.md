@@ -36,7 +36,7 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 
 ### Shell Hooks
 
-Load rbenv options/features always.  Benefits listed at https://github.com/rbenv/rbenv#how-rbenv-hooks-into-your-shell.
+Load rbenv shell hooks.  Benefits listed at https://github.com/rbenv/rbenv#how-rbenv-hooks-into-your-shell.
 
 See
 
