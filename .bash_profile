@@ -78,13 +78,13 @@ COLOR_RESET="\[\033[00m\]"
 # ---------------------------------------------------------------------------
 # \u : the username of the current user
 # \h : the hostname up to the first ‘.’
-user_at_host="$WHITE_BOLD\u@\h"
+user_at_host="$GREEN_BOLD\u@\h"
 
 # ---------------------------------------------------------------------------
 # working-dir ( \w )
 # ---------------------------------------------------------------------------
 # \w : the working directory, with $HOME abbreviated with a tilde
-working_dir="$GREEN_BOLD\w"
+working_dir="$YELLOW_BOLD\w"
 
 # ---------------------------------------------------------------------------
 # git-branch
