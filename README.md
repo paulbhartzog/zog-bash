@@ -57,3 +57,15 @@ The complete code block
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 ```
+
+## BASH
+
+Source .bashrc if it exists
+
+```sh
+# source .bashrc if it exists
+if [ -f ~/.bashrc ]; then
+   source ~/.bashrc
+fi
+```
+

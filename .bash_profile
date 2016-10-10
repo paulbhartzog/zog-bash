@@ -7,3 +7,8 @@ export NVM_DIR="$HOME/.nvm"
 # ruby env init (rbenv)
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
+
+# source .bashrc if it exists
+if [ -f ~/.bashrc ]; then
+   source ~/.bashrc
+fi
