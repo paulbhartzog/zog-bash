@@ -10,8 +10,8 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
 # source .bashrc if it exists
-if [ -f ~/.bashrc ]; then
-   source ~/.bashrc
+if [ -f $HOME/.bashrc ]; then
+  source $HOME/.bashrc
 fi
 
 # end .bash_profile
