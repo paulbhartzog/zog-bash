@@ -1,4 +1,4 @@
-# zog-bash-prompt
+# zog-bash
 
 Paul B. Hartzog's bash stuff w/ various handy bits in it. :-)
 
