@@ -42,7 +42,7 @@ source ~/.git-completion.bash
 # account@machine working-dir git-branch ruby-env prompt
 # ---------------------------------------------------------------------------
 echo "- create useful bash prompt:"
-echo "  - account@machine working-dir git-branch ruby-env prompt"
+echo "  account@machine working-dir git-branch ruby-env prompt"
 
 # ---------------------------------------------------------------------------
 # colors
