@@ -12,6 +12,18 @@ Year: 2016
 WWW: [http://paulbhartzog.org](http://paulbhartzog.org)  
 Github:  [http://github.com/paulbhartzog](http://github.com/paulbhartzog)
 
+
+## BASH
+
+Source .bashrc if it exists
+
+```sh
+# source .bashrc if it exists
+if [ -f ~/.bashrc ]; then
+   source ~/.bashrc
+fi
+```
+
 ## NVM
 
 From https://github.com/creationix/nvm
@@ -56,16 +68,5 @@ The complete code block
 # ruby env init (rbenv)
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
-```
-
-## BASH
-
-Source .bashrc if it exists
-
-```sh
-# source .bashrc if it exists
-if [ -f ~/.bashrc ]; then
-   source ~/.bashrc
-fi
 ```
 
