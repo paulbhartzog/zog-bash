@@ -15,6 +15,25 @@ if [ -f ~/.bashrc ]; then
 fi
 
 # ---------------------------------------------------------------------------
+# colors
+# ---------------------------------------------------------------------------
+# 0; is regular
+# 1; is bold
+RED="\[\033[0;31m\]"
+RED_BOLD="\[\033[1;31m\]"
+GREEN="\[\033[0;32m\]"
+GREEN_BOLD="\[\033[1;32m\]"
+YELLOW="\[\033[0;33m\]"
+YELLOW_BOLD="\[\033[1;33m\]"
+BLUE="\[\033[0;34m\]"
+BLUE_BOLD="\[\033[1;34m\]"
+CYAN="\[\033[0;36m\]"
+CYAN_BOLD="\[\033[0;36m\]"
+GRAY="\[\033[0;37m\]"
+DKGRAY="\[\033[1;30m\]"
+WHITE="\[\033[1;37m\]"
+
+# ---------------------------------------------------------------------------
 # NVM
 # ---------------------------------------------------------------------------
 echo "load nvm"
@@ -29,37 +48,62 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 echo "load rbenv shell hooks"
 eval "$(rbenv init -)"
 
-
-
 # ---------------------------------------------------------------------------
 # create useful bash prompt
-# account@machine current-directory current-git-branch current-ruby-env
+# account@machine working-dir git-branch ruby-env prompt
 # ---------------------------------------------------------------------------
 echo "create useful bash prompt:"
-echo "  account@machine current-directory current-git-branch current-ruby-env"
+echo "  account@machine working-dir git-branch ruby-env prompt"
 
 # ---------------------------------------------------------------------------
-# account@machine
+# account@machine ( \u@\h )
 # ---------------------------------------------------------------------------
+# \u : the username of the current user
+# \h : the hostname up to the first ‘.’
+user_at_host="$RED_BOLD\u@\h"
+
 # ---------------------------------------------------------------------------
-# current-directory
+# working-dir ( \w )
 # ---------------------------------------------------------------------------
+# \w : the working directory, with $HOME abbreviated with a tilde
+working_dir="$GREEN_BOLD\w"
+
 # ---------------------------------------------------------------------------
-# current-git-branch
+# git-branch
 # ---------------------------------------------------------------------------
-parse_git_branch() {
+get_git_branch() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 # export PS1="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ "
+git_branch="\[\033[01;34m\]$(get_git_branch)\033[01;34m\]"
 
 # ---------------------------------------------------------------------------
-# current-ruby-env
+# ruby-env
 # ---------------------------------------------------------------------------
-__rbenv_ps1 ()
-{
-  rbenv_ruby_version=`rbenv version | sed -e 's/ .*//'`
-  printf $rbenv_ruby_version
+get_ruby_env () {
+  rbenv version | sed -e 's/ .*//'
 }
+ruby_env="\033[01;31m\]ruby=$(get_ruby_env)\033[01;31m\]"
+
+# ---------------------------------------------------------------------------
+# prompt ($)
+# ---------------------------------------------------------------------------
+prompt="\[\033[01;35m\]\$\[\033[00m\] "
+
+# ---------------------------------------------------------------------------
+# build prompt
+# ---------------------------------------------------------------------------
+
+if [ -f $(brew --prefix)/etc/bash_completion ] && [ -f `which rbenv` ]; then
+  export PS1="$user_at_host $current_working_dir $git_branch $ruby_env $prompt"
+elif [ -f $BASH_COMPLETION_DIR/git ]; then
+  export PS1='\[\033[01;32m\]\u@\h\[\033[01;33m\] \w$(__git_ps1) \[\033[01;34m\]\$\[\033[00m\] 2 '
+elif [ `which rbenv` ]; then
+  export PS1='\[\033[01;32m\]\u@\h\[\033[01;33m\] \w ruby=$(__rbenv_ps1) \[\033[01;34m\]\$\[\033[00m\] 3 '
+else
+  export PS1='\[\033[01;32m\]\u@\h\[\033[01;33m\] \w \[\033[01;34m\]\$\[\033[00m\] 4 '
+fi
+
 
 
 
