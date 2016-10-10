@@ -1,4 +1,5 @@
 # Paul B. Hartzog .bash_profile
+# begin .bash_profile
 
 # nvm loader
 export NVM_DIR="$HOME/.nvm"
@@ -12,3 +13,5 @@ eval "$(rbenv init -)"
 if [ -f ~/.bashrc ]; then
    source ~/.bashrc
 fi
+
+# end .bash_profile
