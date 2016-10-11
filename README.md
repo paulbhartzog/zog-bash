@@ -2,8 +2,7 @@
 
 Paul B. Hartzog's bash stuff w/ various handy bits in it. :-)
 
-# Shell Setup (Bash)
-
+Shared under the MIT License.
 
 ## Meta
 
@@ -13,7 +12,26 @@ WWW: [http://paulbhartzog.org](http://paulbhartzog.org)
 Github:  [http://github.com/paulbhartzog](http://github.com/paulbhartzog)
 
 
-## BASH
+## Manifest
+
+  * .bash_logout
+  * .bash_profile
+  * .bashrc
+  * LICENSE
+  * README.md
+
+---
+# Paul B. Hartzog - Shell Setup (Bash)
+---
+
+## .bash_logout
+
+Simply contains an example "Goodbye" statement that is executed when exiting a shell instance.
+
+---
+## .bash_profile
+
+### BASH
 
 Source .bashrc if it exists
 
@@ -24,7 +42,7 @@ if [ -f ~/.bashrc ]; then
 fi
 ```
 
-## NVM
+### NVM
 
 From https://github.com/creationix/nvm
 
@@ -34,9 +52,9 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 ```
 
-## RBENV
+### RBENV
 
-### PATH
+#### PATH
 
 Add rbenv to PATH.
 
@@ -46,7 +64,7 @@ From https://github.com/rbenv/rbenv
 export PATH="$HOME/.rbenv/bin:$PATH"
 ```
 
-### Shell Hooks
+#### Shell Hooks
 
 Load rbenv shell hooks.  Benefits listed at https://github.com/rbenv/rbenv#how-rbenv-hooks-into-your-shell.
 
@@ -60,9 +78,9 @@ See
 eval "$(rbenv init -)"
 ```
 
-## BASH PROMPT
+### BASH PROMPT
 
-### Colors
+#### Colors
 
 Setup some colors to use.  (You can google to find all the color codes and how to use them in a bash script).
 
@@ -92,7 +110,7 @@ LIGHT_PURPLE_BOLD="\[\033[1;95m\]"
 COLOR_RESET="\[\033[00m\]"
 ```
 
-### Account@machine
+#### Account@machine
 
 ```sh
 # \u : the username of the current user
@@ -100,14 +118,14 @@ COLOR_RESET="\[\033[00m\]"
 user_at_host="$WHITE_BOLD\u@\h"
 ```
 
-### Working dir
+#### Working dir
 
 ```sh
 # \w : the working directory, with $HOME abbreviated with a tilde
 working_dir="$GREEN_BOLD\w"
 ```
 
-### Git branch
+#### Git branch
 
 ```sh
 get_git_branch() {
@@ -117,7 +135,7 @@ get_git_branch() {
 git_branch="$CYAN_BOLD git$(get_git_branch)"
 ```
 
-### Ruby env (from rbenv)
+#### Ruby env (from rbenv)
 
 ```sh
 get_ruby_env () {
@@ -126,15 +144,15 @@ get_ruby_env () {
 ruby_env="$DARK_RED_BOLD ruby $(get_ruby_env)"
 ```
 
-### Prompt (prompt character, using $)
+#### Prompt Character (using $)
 
 ```sh
 prompt="$LIGHT_PURPLE_BOLD\$$COLOR_RESET "
 ```
 
-### Prompt
+#### Prompt Context
 
-Output the correct prompt depending on what vars are available.
+Output the appropriate prompt depending on context.
 
 ```sh
 if [ -f $(brew --prefix)/etc/bash_completion ] && [ -f `which rbenv` ]; then
@@ -148,3 +166,23 @@ else
 fi
 ```
 
+---
+
+## .bashrc
+
+Personal aliases (etc.) are in .bashrc
+
+```sh
+# alias res(et) to clear terminal and reload ~/.bash_profile
+# ~/.bash_profile sources .bashrc automagically
+alias res="clear; source $HOME/.bash_profile"
+
+# alias ls to show colors (on mac ls is BSD version of ls, so -G)
+alias ls="ls -G"
+
+# alias rm for safety
+alias rm="rm -i"
+```
+
+---
+end
