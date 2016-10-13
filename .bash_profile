@@ -35,15 +35,13 @@ echo "  - add rbenv to PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
 echo "  - load rbenv shell hooks"
 eval "$(rbenv init -)"
-RBENV_SOURCE=""
 if [ -f ./.ruby-version ]; then
-  RBENV_SOURCE="local"
   echo "  - ./.ruby-version exists in $PWD"
+  echo "  - RBENV_SOURCE is local"
 else
-  RBENV_SOURCE="global"
   echo "  - NO ./.ruby-version exists in $PWD"
+  echo "  - RBENV_SOURCE is global"
 fi
-echo "  - RBENV_SOURCE is $RBENV_SOURCE"
 
 # ---------------------------------------------------------------------------
 # bash completion for git
@@ -121,13 +119,13 @@ get_ruby_env() {
   rbenv version | sed -e 's/ .*//'
 }
 get_rbenv_source(){
-  RBENV_SOURCE2=""
+  RBENV_SOURCE=""
   if [ -f ./.ruby-version ]; then
-    RBENV_SOURCE2="local"
+    RBENV_SOURCE="local"
   else
-    RBENV_SOURCE2="global"
+    RBENV_SOURCE="global"
   fi
-  echo $RBENV_SOURCE2
+  echo $RBENV_SOURCE
 }
 # slash \ before func call is necessary to refresh prompt on dir change
 ruby_env="$DARK_RED_BOLD ruby \$(get_ruby_env) (\$(get_rbenv_source))"

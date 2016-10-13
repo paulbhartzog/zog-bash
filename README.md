@@ -25,6 +25,7 @@ Github:  [http://github.com/paulbhartzog](http://github.com/paulbhartzog)
 
 **All of the code examples below are explanatory and not exactly what is in the scripts themselves.  I have removed some comments and "echo" statements for clarity.**
 
+
 ---
 
 ## .bash_logout
@@ -33,6 +34,11 @@ Simply contains an example "Goodbye" statement that is executed when exiting a s
 
 ---
 ## .bash_profile
+
+This .bash_profile produces the following bash prompt:
+
+**user@host ~/current/working/directory  git (branch)  ruby version (source) $**
+
 
 ### BASH
 
@@ -141,25 +147,25 @@ git_branch="$CYAN_BOLD git\$(get_git_branch)"
 
 The Ruby environment part of the prompt is actually based on two things: 1) rbenv version, and 2) whether or not that setting is coming from global or local.
 
-First, I determine if the setting is global or local and set a variable we can use later.  If .ruby-version exists in the current working directory then rbenv will use that as a local ruby setting, otherwise rbenv defaults to global.
+First, I have a function to determine the version in use, and second, I have a function to determine whether the source of that ruby setting is global or local. If .ruby-version exists in the current working directory then rbenv will use that as a local ruby setting, otherwise rbenv defaults to global.
+
+
 
 ```sh
-RBENV_SOURCE=""
-if [ -f ./.ruby-version ]; then
-  RBENV_SOURCE="local"
-else
-  RBENV_SOURCE="global"
-fi
-```
-
-Second, I determine the version in use.
-
-```sh
-get_ruby_env () {
+get_ruby_env() {
   rbenv version | sed -e 's/ .*//'
 }
+get_rbenv_source(){
+  RBENV_SOURCE=""
+  if [ -f ./.ruby-version ]; then
+    RBENV_SOURCE="local"
+  else
+    RBENV_SOURCE="global"
+  fi
+  echo $RBENV_SOURCE
+}
 # slash \ before func call is necessary to refresh prompt on dir change
-ruby_env="$DARK_RED_BOLD ruby \$(get_ruby_env) ($RBENV_SOURCE)"
+ruby_env="$DARK_RED_BOLD ruby \$(get_ruby_env) (\$(get_rbenv_source))"
 ```
 
 #### Prompt Character (using $)
