@@ -137,13 +137,29 @@ get_git_branch() {
 git_branch="$CYAN_BOLD git\$(get_git_branch)"
 ```
 
-#### Ruby env (from rbenv)
+#### Ruby environment
+
+The Ruby environment part of the prompt is actually based on two things: 1) rbenv version, and 2) whether or not that setting is coming from global or local.
+
+First, I determine if the setting is global or local and set a variable we can use later.  If .ruby-version exists in the current working directory then rbenv will use that as a local ruby setting, otherwise rbenv defaults to global.
+
+```sh
+RBENV_SOURCE=""
+if [ -f ./.ruby-version ]; then
+  RBENV_SOURCE="local"
+else
+  RBENV_SOURCE="global"
+fi
+```
+
+Second, I determine the version in use.
 
 ```sh
 get_ruby_env () {
   rbenv version | sed -e 's/ .*//'
 }
-ruby_env="$DARK_RED_BOLD ruby $(get_ruby_env)"
+# slash \ before func call is necessary to refresh prompt on dir change
+ruby_env="$DARK_RED_BOLD ruby \$(get_ruby_env) ($RBENV_SOURCE)"
 ```
 
 #### Prompt Character (using $)

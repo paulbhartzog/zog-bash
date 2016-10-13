@@ -11,7 +11,6 @@ echo "  - source $HOME/.bash_profile"
 # .bashrc
 # ---------------------------------------------------------------------------
 echo "- .bashrc"
-# source .bashrc if it exists
 if [ -f $HOME//.bashrc ]; then
   echo "  - $HOME/.bashrc exists"
   echo "  - source $HOME/.bashrc"
@@ -24,7 +23,7 @@ fi
 # NVM
 # ---------------------------------------------------------------------------
 echo "- nvm"
-echo "   - load nvm"
+echo "   load nvm"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
@@ -36,6 +35,15 @@ echo "  - add rbenv to PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
 echo "  - load rbenv shell hooks"
 eval "$(rbenv init -)"
+RBENV_SOURCE=""
+if [ -f ./.ruby-version ]; then
+  RBENV_SOURCE="local"
+  echo "  - ./.ruby-version exists in $PWD"
+else
+  RBENV_SOURCE="global"
+  echo "  - NO ./.ruby-version exists in $PWD"
+fi
+echo "  - RBENV_SOURCE is $RBENV_SOURCE"
 
 # ---------------------------------------------------------------------------
 # bash completion for git
@@ -109,10 +117,20 @@ git_branch="$CYAN_BOLD git\$(get_git_branch)"
 # ---------------------------------------------------------------------------
 # ruby-env
 # ---------------------------------------------------------------------------
-get_ruby_env () {
+get_ruby_env() {
   rbenv version | sed -e 's/ .*//'
 }
-ruby_env="$DARK_RED_BOLD ruby $(get_ruby_env)"
+get_rbenv_source(){
+  RBENV_SOURCE2=""
+  if [ -f ./.ruby-version ]; then
+    RBENV_SOURCE2="local"
+  else
+    RBENV_SOURCE2="global"
+  fi
+  echo $RBENV_SOURCE2
+}
+# slash \ before func call is necessary to refresh prompt on dir change
+ruby_env="$DARK_RED_BOLD ruby \$(get_ruby_env) (\$(get_rbenv_source))"
 
 # ---------------------------------------------------------------------------
 # prompt ($)
@@ -120,16 +138,16 @@ ruby_env="$DARK_RED_BOLD ruby $(get_ruby_env)"
 prompt="$LIGHT_PURPLE_BOLD\$"
 
 # ---------------------------------------------------------------------------
-# assign prompt based on available vars
+# assing prompt based on available vars
 # ---------------------------------------------------------------------------
 if [ -f $(brew --prefix)/etc/bash_completion ] && [ -f `which rbenv` ]; then
-  export PS1="$user_at_host $working_dir $git_branch $ruby_env $prompt $COLOR_RESET "
+  export PS1="$user_at_host  $working_dir $git_branch $ruby_env $prompt $COLOR_RESET"
 elif [ -f $(brew --prefix)/etc/bash_completion ]; then
-  export PS1="$user_at_host $working_dir $git_branch $prompt $COLOR_RESET "
+  export PS1="$user_at_host  $working_dir $git_branch $prompt $COLOR_RESET"
 elif [ `which rbenv` ]; then
-  export PS1="$user_at_host $working_dir $ruby_env $prompt $COLOR_RESET "
+  export PS1="$user_at_host  $working_dir $ruby_env $prompt $COLOR_RESET"
 else
-  export PS1="$user_at_host $working_dir $prompt $COLOR_RESET "
+  export PS1="$user_at_host  $working_dir $prompt $COLOR_RESET"
 fi
 
 
