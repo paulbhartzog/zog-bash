@@ -22,6 +22,9 @@ Github:  [http://github.com/paulbhartzog](http://github.com/paulbhartzog)
 
 ---
 # Paul B. Hartzog - Shell Setup (Bash)
+
+**All of the code examples below are explanatory and not exactly what is in the scripts themselves.  I have removed some comments and "echo" statements for clarity.**
+
 ---
 
 ## .bash_logout
@@ -47,7 +50,6 @@ fi
 From https://github.com/creationix/nvm
 
 ```sh
-# nvm loader
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 ```
@@ -115,14 +117,14 @@ COLOR_RESET="\[\033[00m\]"
 ```sh
 # \u : the username of the current user
 # \h : the hostname up to the first ‘.’
-user_at_host="$WHITE_BOLD\u@\h"
+user_at_host="$GREEN_BOLD\u@\h"
 ```
 
 #### Working dir
 
 ```sh
 # \w : the working directory, with $HOME abbreviated with a tilde
-working_dir="$GREEN_BOLD\w"
+working_dir="$YELLOW_BOLD\w"
 ```
 
 #### Git branch
@@ -131,8 +133,8 @@ working_dir="$GREEN_BOLD\w"
 get_git_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
-# export PS1="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ "
-git_branch="$CYAN_BOLD git$(get_git_branch)"
+# slash \ before func call is necessary to refresh prompt on branch change
+git_branch="$CYAN_BOLD git\$(get_git_branch)"
 ```
 
 #### Ruby env (from rbenv)
@@ -147,7 +149,7 @@ ruby_env="$DARK_RED_BOLD ruby $(get_ruby_env)"
 #### Prompt Character (using $)
 
 ```sh
-prompt="$LIGHT_PURPLE_BOLD\$$COLOR_RESET "
+prompt="$LIGHT_PURPLE_BOLD\$"
 ```
 
 #### Prompt Context
@@ -156,13 +158,13 @@ Output the appropriate prompt depending on context.
 
 ```sh
 if [ -f $(brew --prefix)/etc/bash_completion ] && [ -f `which rbenv` ]; then
-  export PS1="$user_at_host $working_dir $git_branch $ruby_env $prompt"
+  export PS1="$user_at_host $working_dir $git_branch $ruby_env $prompt $COLOR_RESET "
 elif [ -f $(brew --prefix)/etc/bash_completion ]; then
-  export PS1="$user_at_host $working_dir $git_branch $prompt"
+  export PS1="$user_at_host $working_dir $git_branch $prompt $COLOR_RESET "
 elif [ `which rbenv` ]; then
-  export PS1="$user_at_host $working_dir $ruby_env $prompt"
+  export PS1="$user_at_host $working_dir $ruby_env $prompt $COLOR_RESET "
 else
-  export PS1="$user_at_host $working_dir $prompt"
+  export PS1="$user_at_host $working_dir $prompt $COLOR_RESET "
 fi
 ```
 

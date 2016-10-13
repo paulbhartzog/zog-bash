@@ -4,45 +4,49 @@
 # ---------------------------------------------------------------------------
 # .bash_profile
 # ---------------------------------------------------------------------------
-echo "- source $HOME/.bash_profile"
+echo "- .bash_profile"
+echo "  - source $HOME/.bash_profile"
 
 # ---------------------------------------------------------------------------
 # .bashrc
 # ---------------------------------------------------------------------------
-echo "- source .bashrc if it exists"
-if [ -f ~/.bashrc ]; then
-   source ~/.bashrc
+echo "- .bashrc"
+# source .bashrc if it exists
+if [ -f $HOME//.bashrc ]; then
+  echo "  - $HOME/.bashrc exists"
+  echo "  - source $HOME/.bashrc"
+  source $HOME/.bashrc
+else
+  echo "  - no $HOME/.bashrc exists, cannot source .bashrc"
 fi
 
 # ---------------------------------------------------------------------------
 # NVM
 # ---------------------------------------------------------------------------
-echo "- load nvm"
+echo "- nvm"
+echo "   - load nvm"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
 # ---------------------------------------------------------------------------
 # RBENV
 # ---------------------------------------------------------------------------
-echo "- set rbenv PATH"
+echo "- rbenv"
+echo "  - add rbenv to PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
-echo "- load rbenv shell hooks"
+echo "  - load rbenv shell hooks"
 eval "$(rbenv init -)"
 
 # ---------------------------------------------------------------------------
 # bash completion for git
 # ---------------------------------------------------------------------------
+echo "- bash completion"
+echo "  - setup bash completion"
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
     . $(brew --prefix)/etc/bash_completion
 fi
-source ~/.git-completion.bash
-
-# ---------------------------------------------------------------------------
-# create useful bash prompt
-# account@machine working-dir git-branch ruby-env prompt
-# ---------------------------------------------------------------------------
-echo "- create useful bash prompt:"
-echo "  account@machine working-dir git-branch ruby-env prompt"
+echo "  - source $HOME/.git-completion.bash"
+source $HOME/.git-completion.bash
 
 # ---------------------------------------------------------------------------
 # colors
@@ -74,6 +78,13 @@ LIGHT_PURPLE_BOLD="\[\033[1;95m\]"
 COLOR_RESET="\[\033[00m\]"
 
 # ---------------------------------------------------------------------------
+# create useful bash prompt
+# account@machine working-dir git-branch ruby-env prompt
+# ---------------------------------------------------------------------------
+echo "- create useful bash prompt:"
+echo "  - account@machine working-dir git-branch ruby-env prompt"
+
+# ---------------------------------------------------------------------------
 # account@machine ( \u@\h )
 # ---------------------------------------------------------------------------
 # \u : the username of the current user
@@ -92,8 +103,8 @@ working_dir="$YELLOW_BOLD\w"
 get_git_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
-# export PS1="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ "
-git_branch="$CYAN_BOLD git$(get_git_branch)"
+# slash \ before func call is necessary to refresh prompt on branch change
+git_branch="$CYAN_BOLD git\$(get_git_branch)"
 
 # ---------------------------------------------------------------------------
 # ruby-env
@@ -106,19 +117,19 @@ ruby_env="$DARK_RED_BOLD ruby $(get_ruby_env)"
 # ---------------------------------------------------------------------------
 # prompt ($)
 # ---------------------------------------------------------------------------
-prompt="$LIGHT_PURPLE_BOLD\$$COLOR_RESET "
+prompt="$LIGHT_PURPLE_BOLD\$"
 
 # ---------------------------------------------------------------------------
-# assing prompt based on available vars
+# assign prompt based on available vars
 # ---------------------------------------------------------------------------
 if [ -f $(brew --prefix)/etc/bash_completion ] && [ -f `which rbenv` ]; then
-  export PS1="$user_at_host $working_dir $git_branch $ruby_env $prompt"
+  export PS1="$user_at_host $working_dir $git_branch $ruby_env $prompt $COLOR_RESET "
 elif [ -f $(brew --prefix)/etc/bash_completion ]; then
-  export PS1="$user_at_host $working_dir $git_branch $prompt"
+  export PS1="$user_at_host $working_dir $git_branch $prompt $COLOR_RESET "
 elif [ `which rbenv` ]; then
-  export PS1="$user_at_host $working_dir $ruby_env $prompt"
+  export PS1="$user_at_host $working_dir $ruby_env $prompt $COLOR_RESET "
 else
-  export PS1="$user_at_host $working_dir $prompt"
+  export PS1="$user_at_host $working_dir $prompt $COLOR_RESET "
 fi
 
 
